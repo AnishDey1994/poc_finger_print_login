@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
 function Login(props) {
-    //const [rawId, setRawId] = useState(null);
+    const [rawId, setRawId] = useState(null);
 
     let navigate = useNavigate();
     let encoder = new TextEncoder();
@@ -17,6 +17,7 @@ function Login(props) {
             },
 
             // User:
+            //okta
             user: {
                 id: new Uint8Array(16),
                 name: "john.p.smith@example.com",
@@ -32,6 +33,7 @@ function Login(props) {
 
             timeout: 60000,
 
+            //okta
             challenge: new Uint8Array([ // must be a cryptographically random number sent from a server
                 0x8C, 0x0A, 0x26, 0xFF, 0x22, 0x91, 0xC1, 0xE9, 0xB9, 0x4E, 0x2E, 0x17, 0x1A, 0x98, 0x6A, 0x73,
                 0x71, 0x9D, 0x43, 0x48, 0xD5, 0xA7, 0x6A, 0x15, 0x7E, 0x38, 0x94, 0x52, 0x77, 0x97, 0x0F, 0xEF
@@ -82,14 +84,14 @@ function Login(props) {
         navigator.credentials.create(createCredentialDefaultArgs)
             .then((cred) => {
                 console.log("NEW CREDENTIAL", cred);
-                //setRawId(cred.rawId);
-                localStorage.setItem('rawId', cred.rawId);
+                setRawId(cred.rawId);
+                //localStorage.setItem('rawId', decoder.decode(cred.rawId));
             })
             .catch((err) => {
                 console.log("loginInitiate ERROR", err);
             });
     }
-    const loginGet = (rawId) => {
+    const loginGet = () => {
         console.log('loginGet calling.........', rawId);
         const idList = [{
             id: rawId,
@@ -106,14 +108,14 @@ function Login(props) {
             });
     }
     useEffect(() => {
-        //loginCreate();
-        let rawId = localStorage.getItem('rawId');
-        if(rawId){
-            console.log('gotchaaa..', encoder.encode(rawId).buffer);
-            loginGet(encoder.encode(rawId).buffer);
-        } else {
-            loginCreate();
-        }
+        loginCreate();
+        // let rawId = localStorage.getItem('rawId');
+        // if(rawId){
+        //     console.log('gotchaaa..', encoder.encode(rawId), rawId);
+        //     //loginGet(encoder.encode(rawId));
+        // } else {
+        //     loginCreate();
+        // }
     }, [])
     return (
         <div className="Login">

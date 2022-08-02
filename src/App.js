@@ -11,6 +11,7 @@ function App(props) {
     <div className="App">
       <Routes>
         <Route path="/" element={<Login {...props}/>} />
+        <Route path="/login" element={<Login {...props}/>} />
         <Route path="/home" element={<Home {...props}/>} />
       </Routes>
     </div>
